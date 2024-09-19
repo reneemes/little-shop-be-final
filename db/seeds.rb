@@ -12,3 +12,5 @@ puts "Loading PostgreSQL Data dump into local database with command:"
 puts cmd
 system(cmd)
 
+# system()
+# Coupon.create(name: )

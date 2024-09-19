@@ -27,4 +27,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  get '/api/v1/merchants/:merchant_id/coupons', to: 'api/v1/merchants/coupons#index'
 end

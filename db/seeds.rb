@@ -12,5 +12,7 @@ puts "Loading PostgreSQL Data dump into local database with command:"
 puts cmd
 system(cmd)
 
-# system()
-# Coupon.create(name: )
+system("rails db:migrate")
+# Merchant.create!(name: "Kozey Group")
+Coupon.create!(name: "Five Dollars Off", merchant_id: 1, code: "SAVE5", discount: -5.00)
+Coupon.create!(name: "Twenty Dollars Off", merchant_id: 1, code: "SAVE20", discount: -20.00)

@@ -27,4 +27,20 @@ RSpec.describe "Coupons Controller" do
       end
     end
   end
+
+  describe 'Show Action' do
+    it 'can return an item by ID for a specific merchant' do
+      get "/api/v1/merchants/#{@merchant1.id}/coupons/#{@coupon1.id}"
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      # require 'pry'; binding.pry
+      data = data[:attributes]
+      expect(data[:times_used]).to be_present
+      expect(data[:times_used]).to eq(0)
+      
+    end
+  end
 end

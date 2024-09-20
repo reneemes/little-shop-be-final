@@ -115,7 +115,7 @@ describe "Item endpoints", :type => :request do
     end
   end
 
-  describe "Update item" do
+  describe "Update Item" do
     it "should properly update an existing item" do
       item = create(:item, merchant: merchant)
       item_name = "stamps"
@@ -139,6 +139,7 @@ describe "Item endpoints", :type => :request do
 
       expect(response).to have_http_status(:not_found)
       expect(json[:errors].first).to eq("Couldn't find Item with 'id'=235")
+      # require 'pry'; binding.pry
     end
   end
 

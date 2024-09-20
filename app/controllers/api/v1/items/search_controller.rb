@@ -15,7 +15,7 @@ class Api::V1::Items::SearchController < ApplicationController
     if item.present?
       render json: ItemSerializer.new(item)
     else
-      render json: { data: { } }
+      render json: { data: { } } #needs test coverage
     end
   end
 
@@ -40,7 +40,7 @@ class Api::V1::Items::SearchController < ApplicationController
       search_response = Item.find_one_item_by_name(params[:name])
       return render json: { data: { } } if search_response.nil?
     elsif params[:action] == "index"
-      search_response = Item.find_all_by_name(params[:name])
+      search_response = Item.find_all_by_name(params[:name]) # needs test coverage
     end
     render json: ItemSerializer.new(search_response), status: :ok
   end

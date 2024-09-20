@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe "Coupons Controller" do
   before (:each) do
     @merchant1 = Merchant.create!(name: "Kozey Group")
+    @merchant2 = Merchant.create!(name: "THEE One Piece Shop")
+
     @coupon1 = Coupon.create!(
       name: "Five Dollars Off",
       merchant_id: @merchant1.id,
@@ -13,6 +15,12 @@ RSpec.describe "Coupons Controller" do
       merchant_id: @merchant1.id,
       code: "SAVE20",
       discount: -20.00)
+    
+    @op_coupon1 = Coupon.create!(name: "Chopper's Chopped Deals", merchant_id: @merchant2.id, code: "DOCTOR", discount: 50.00)
+    @op_coupon2 = Coupon.create!(name: "Sanji's Savings", merchant_id: @merchant2.id, code: "COOK", discount: -10.00)
+    @op_coupon3 = Coupon.create!(name: "Zoro's Slashed Savings", merchant_id: @merchant2.id, code: "NAPTIME", discount: 25.00)
+    @op_coupon4 = Coupon.create!(name: "Franky's Auto Repairs", merchant_id: @merchant2.id, code: "SUUUPER", discount: -100.00)
+    @op_coupon5 = Coupon.create!(name: "Robin's Book Deals", merchant_id: @merchant2.id, code: "BLOOMBLOOM", discount: 75.00)
   end
 
   describe 'Index Action' do
@@ -63,7 +71,15 @@ RSpec.describe "Coupons Controller" do
     end
 
     it 'handles merchants that already have 5 coupons' do
-
+      coupon_params = {
+        "name": "Ten Percent Off",
+        "discount": 10.00,
+        "code": "SAVE10"
+      }
+      post "/api/v1/merchants/#{@merchant2.id}/coupons", params: coupon_params, as: :json
+      data = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+    
+      expect(response).to_not be_successful
     end
 
     it 'handles coupon codes that are not unique' do

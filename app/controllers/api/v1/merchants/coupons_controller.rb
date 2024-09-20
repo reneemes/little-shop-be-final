@@ -14,7 +14,6 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
   def create
     merchant = Merchant.find(params[:merchant_id])
-    # require 'pry'; binding.pry
     new_coupon = merchant.coupons.new(coupon_params)
     if new_coupon.save
       render json: CouponSerializer.new(new_coupon), status: :created

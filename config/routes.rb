@@ -30,4 +30,16 @@ Rails.application.routes.draw do
 
   get '/api/v1/merchants/:merchant_id/coupons', to: 'api/v1/merchants/coupons#index'
   get '/api/v1/merchants/:merchant_id/coupons/:id', to: 'api/v1/merchants/coupons#show'
+  post '/api/v1/merchants/:merchant_id/coupons', to: 'api/v1/merchants/coupons#create'
+
+  # namespace :api do
+  #   namespace :v1 do
+  #     namespace :merchants do
+  #       resources :merchants, only: [] do
+  #         resources :coupons, only: [:index, :show, :create]
+  #       end
+  #     end
+  #   end
+  # end
+  
 end

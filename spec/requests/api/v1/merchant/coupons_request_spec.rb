@@ -85,8 +85,19 @@ RSpec.describe "Coupons Controller" do
       expect(data[:errors]).to eq(["param is missing or the value is empty: coupon"])
     end
 
-    xit 'handles coupon codes that are not unique' do
+    it 'handles coupon codes that are not unique' do
+      coupon1_code_copy = Coupon.create(
+      name: "Five Percent Off",
+      merchant_id: @merchant1.id,
+      code: "SAVE5",
+      discount: 5.00)
 
+      post "/api/v1/merchants/#{@merchant1.id}/coupons", params: coupon1_code_copy, as: :json
+      data = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response).to_not be_successful
+      expect(data[:message]).to eq("Creation failed")
+      expect(data[:errors]).to eq(["param is missing or the value is empty: coupon"])
     end
 
     it 'handles no parameters' do

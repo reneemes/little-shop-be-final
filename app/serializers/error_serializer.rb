@@ -12,4 +12,11 @@ class ErrorSerializer
       errors: ["invalid search params"] 
     }
   end
+
+  def self.creation_error(messages)
+    {
+      message: messages,
+      errors: ["param is missing or the value is empty: coupon"]
+    }
+  end
 end

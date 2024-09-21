@@ -54,6 +54,12 @@ RSpec.describe "Item Search Endpoints" do
         json = JSON.parse(response.body, symbolize_names: true)
         expect(json[:errors][0]).to eq("invalid search params")
       end
+
+      it 'should return an empty data hash if no items are found' do
+        get api_v1_items_find_index_path, params: { min_price: 100 }
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:data]).to eq({})
+      end
     end
   end
 
@@ -72,6 +78,19 @@ RSpec.describe "Item Search Endpoints" do
       item_names = json[:data].map { |element| element[:attributes][:name] }
       expect(item_names).to match_array(["apple", "banana"])
 
+    end
+
+    it 'handles item name search for the index action' do
+      item1 = create(:item, name: "apple", unit_price: 1.09, merchant: merchant)
+      item2 = create(:item, name: "banana", unit_price: 0.99, merchant: merchant)
+      item3 = create(:item, name: "mango", unit_price: 3.99, merchant: merchant)
+
+      get api_v1_items_find_all_index_path, params: { name: "an" }
+      json = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(json.count).to eq(2)
+      expect(json.first[:attributes][:name]).to eq("banana")
+      expect(json.last[:attributes][:name]).to eq("mango")
     end
   end
 end

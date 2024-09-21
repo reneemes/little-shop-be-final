@@ -115,7 +115,7 @@ describe "Item endpoints", :type => :request do
     end
   end
 
-  describe "Update item" do
+  describe "Update Item" do
     it "should properly update an existing item" do
       item = create(:item, merchant: merchant)
       item_name = "stamps"

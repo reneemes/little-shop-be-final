@@ -39,7 +39,7 @@ class Api::V1::Items::SearchController < ApplicationController
     if params[:action] == "show"
       search_response = Item.find_one_item_by_name(params[:name])
       return render json: { data: { } } if search_response.nil?
-    elsif params[:action] == "index"
+    elsif params[:action] == "index" 
       search_response = Item.find_all_by_name(params[:name])
     end
     render json: ItemSerializer.new(search_response), status: :ok

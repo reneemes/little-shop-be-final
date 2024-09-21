@@ -26,7 +26,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
   def update
     coupon = Coupon.find(params[:id])
-    updated_coupon = coupon.update(toggle_status)
+    updated_coupon = toggle_status(coupon)
     render json: CouponSerializer.new(updated_coupon), status: :ok
   end
 
@@ -36,7 +36,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     params.require(:coupon).permit(:name, :discount, :code)
   end
 
-  def toggle_status
-    status: !coupon.status
+  def toggle_status(coupon)
+    coupon.update(active: !coupon.active)
   end
 end

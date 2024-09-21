@@ -8,16 +8,8 @@ RSpec.describe "Coupons Controller" do
     @merchant1 = Merchant.create!(name: "Kozey Group")
     @merchant2 = Merchant.create!(name: "THEE One Piece Shop")
 
-    @coupon1 = Coupon.create!(
-      name: "Five Dollars Off",
-      merchant_id: @merchant1.id,
-      code: "SAVE5",
-      discount: -5.00)
-    @coupon2 = Coupon.create!(name:
-      "Twenty Dollars Off",
-      merchant_id: @merchant1.id,
-      code: "SAVE20",
-      discount: -20.00)
+    @coupon1 = Coupon.create!(name: "Five Dollars Off", merchant_id: @merchant1.id, code: "SAVE5", discount: -5.00)
+    @coupon2 = Coupon.create!(name: "Twenty Dollars Off", merchant_id: @merchant1.id, code: "SAVE20", discount: -20.00)
     
     @op_coupon1 = Coupon.create!(name: "Chopper's Chopped Deals", merchant_id: @merchant2.id, code: "DOCTOR", discount: 50.00)
     @op_coupon2 = Coupon.create!(name: "Sanji's Savings", merchant_id: @merchant2.id, code: "COOK", discount: -10.00)

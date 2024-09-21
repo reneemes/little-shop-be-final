@@ -3,7 +3,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
   def index
     merchant = Merchant.find(params[:merchant_id])
     coupons = merchant.coupons
-    render json: CouponSerializer.new(coupons)
+    render json: CouponSerializer.new(coupons, meta: { count: coupons.count })
   end
 
   def show
@@ -28,5 +28,6 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
   def coupon_params
     params.require(:coupon).permit(:name, :discount, :code)
+    # params.permit(:name, :discount, :code)
   end
 end

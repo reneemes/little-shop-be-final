@@ -139,7 +139,6 @@ describe "Item endpoints", :type => :request do
 
       expect(response).to have_http_status(:not_found)
       expect(json[:errors].first).to eq("Couldn't find Item with 'id'=235")
-      # require 'pry'; binding.pry
     end
   end
 

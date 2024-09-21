@@ -79,5 +79,18 @@ RSpec.describe "Item Search Endpoints" do
       expect(item_names).to match_array(["apple", "banana"])
 
     end
+
+    it 'handles item name search for the index action' do
+      item1 = create(:item, name: "apple", unit_price: 1.09, merchant: merchant)
+      item2 = create(:item, name: "banana", unit_price: 0.99, merchant: merchant)
+      item3 = create(:item, name: "mango", unit_price: 3.99, merchant: merchant)
+
+      get api_v1_items_find_all_index_path, params: { name: "an" }
+      json = JSON.parse(response.body, symbolize_names: true)[:data]
+
+      expect(json.count).to eq(2)
+      expect(json.first[:attributes][:name]).to eq("banana")
+      expect(json.last[:attributes][:name]).to eq("mango")
+    end
   end
 end

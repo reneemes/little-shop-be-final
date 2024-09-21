@@ -5,7 +5,7 @@ RSpec.describe "Coupons Controller" do
     @merchant1 = Merchant.create!(name: "Kozey Group")
     @merchant2 = Merchant.create!(name: "THEE One Piece Shop")
 
-    @coupon1 = Coupon.create!(name: "Five Dollars Off", merchant_id: @merchant1.id, code: "SAVE5", discount: -5.00)
+    @coupon1 = Coupon.create!(name: "Five Dollars Off", merchant_id: @merchant1.id, code: "SAVE5", discount: -5.00, active: false)
     @coupon2 = Coupon.create!(name: "Twenty Dollars Off", merchant_id: @merchant1.id, code: "SAVE20", discount: -20.00)
     
     @op_coupon1 = Coupon.create!(name: "Chopper's Chopped Deals", merchant_id: @merchant2.id, code: "DOCTOR", discount: 50.00)
@@ -114,6 +114,26 @@ RSpec.describe "Coupons Controller" do
 
       expect(data[:message]).to eq("Creation failed")
       expect(data[:errors]).to eq(["param is missing or the value is empty: coupon"])
+    end
+  end
+
+  describe 'Update Action' do
+    it 'toggles active status true/false' do
+      expect(@coupon1.active).to eq(false)
+
+      patch "/api/v1/merchants/#{@merchant1.id}/coupons/#{@coupon1.id}", as: :json
+      data = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+     
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data[:active]).to eq(true)
+
+      patch "/api/v1/merchants/#{@merchant1.id}/coupons/#{@coupon1.id}", as: :json
+      data = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+     
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+      expect(data[:active]).to eq(false)
     end
   end
 end

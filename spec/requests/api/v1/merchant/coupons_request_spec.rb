@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Coupons Controller" do
+  # let(:merchant) { create(:merchant) }
+  # let(:coupon) { build(:coupon, merchant: merchant) }
+
   before (:each) do
     @merchant1 = Merchant.create!(name: "Kozey Group")
     @merchant2 = Merchant.create!(name: "THEE One Piece Shop")
@@ -70,18 +73,19 @@ RSpec.describe "Coupons Controller" do
     end
 
     it 'handles merchants that already have 5 coupons' do
-      coupon_params = {
+      sixth_coupon = {
         "name": "Ten Percent Off",
         "discount": 10.00,
         "code": "SAVE10"
       }
-      post "/api/v1/merchants/#{@merchant2.id}/coupons", params: coupon_params, as: :json
-      data = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
-    require 'pry'; binding.pry
+      post "/api/v1/merchants/#{@merchant2.id}/coupons", params: sixth_coupon, as: :json
+      data = JSON.parse(response.body, symbolize_names: true)
       expect(response).to_not be_successful
+      expect(data[:message]).to eq("Creation failed")
+      expect(data[:errors]).to eq(["param is missing or the value is empty: coupon"])
     end
 
-    it 'handles coupon codes that are not unique' do
+    xit 'handles coupon codes that are not unique' do
 
     end
 

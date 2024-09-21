@@ -44,11 +44,10 @@ RSpec.describe "Coupons Controller" do
       expect(response.status).to eq(200)
 
       data = JSON.parse(response.body, symbolize_names: true)[:data]
-      # require 'pry'; binding.pry
+    
       data = data[:attributes]
       expect(data[:times_used]).to be_present
       expect(data[:times_used]).to eq(0)
-      
     end
   end
 
@@ -70,7 +69,7 @@ RSpec.describe "Coupons Controller" do
       expect(data[:merchant][:id]).to eq(@merchant1.id)
     end
 
-    xit 'handles merchants that already have 5 coupons' do
+    it 'handles merchants that already have 5 coupons' do
       coupon_params = {
         "name": "Ten Percent Off",
         "discount": 10.00,
@@ -78,7 +77,7 @@ RSpec.describe "Coupons Controller" do
       }
       post "/api/v1/merchants/#{@merchant2.id}/coupons", params: coupon_params, as: :json
       data = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
-    
+    require 'pry'; binding.pry
       expect(response).to_not be_successful
     end
 

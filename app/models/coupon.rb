@@ -7,11 +7,17 @@ class Coupon < ApplicationRecord
   # validates :code, presence: true
   validates :name, :discount, :code, presence: true
 
-  # validate :coupon_limit, on: :create
+  # before_create :check_count
+  # validate :check_count
+  validate :check_count, on: :create
 
-  # def coupon_limit
-  #   if merchant.coupons.count >= 5
-  #     # require 'pry'; binding.pry
-  #   end
-  # end
+  private
+
+  def check_count
+    # require 'pry'; binding.pry
+    unless merchant.coupons.count >= 5
+      errors[:base] << "Merchant already has 5 coupons"
+      # return false
+    end
+  end
 end

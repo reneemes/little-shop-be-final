@@ -24,9 +24,19 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     render json: { message: "Missing parameters", errors: [error.message] }, status: :unprocessable_entity
   end
 
+  def update
+    coupon = Coupon.find(params[:id])
+    updated_coupon = coupon.update(toggle_status)
+    render json: CouponSerializer.new(updated_coupon), status: :ok
+  end
+
   private
 
   def coupon_params
     params.require(:coupon).permit(:name, :discount, :code)
+  end
+
+  def toggle_status
+    status: !coupon.status
   end
 end

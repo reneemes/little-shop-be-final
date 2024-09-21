@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Coupons Controller" do
-  # let(:merchant) { create(:merchant) }
-  # let(:coupon) { build(:coupon, merchant: merchant) }
-
   before (:each) do
     @merchant1 = Merchant.create!(name: "Kozey Group")
     @merchant2 = Merchant.create!(name: "THEE One Piece Shop")

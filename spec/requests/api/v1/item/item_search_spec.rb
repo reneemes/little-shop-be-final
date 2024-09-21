@@ -54,6 +54,12 @@ RSpec.describe "Item Search Endpoints" do
         json = JSON.parse(response.body, symbolize_names: true)
         expect(json[:errors][0]).to eq("invalid search params")
       end
+
+      it 'should return an empty data hash if no items are found' do
+        get api_v1_items_find_index_path, params: { min_price: 100 }
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:data]).to eq({})
+      end
     end
   end
 

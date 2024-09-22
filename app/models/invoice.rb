@@ -7,13 +7,17 @@ class Invoice < ApplicationRecord
 
   validates :status, inclusion: { in: ["shipped", "packaged", "returned"] }
 
-  # def calculate_percentage_off
-  #   if !coupon.present?
-  #     return invoice_total
-  #   elsif coupon.present?
-  #     # Calculate percentage off here
-  #   end
-  # end
+  def calculate_percentage_off
+    if !coupon.present?
+      return invoice_total
+    elsif coupon.present?
+      # Calculate percentage off here
+      total = invoice_total
+      discount = coupon.discount / 100.00
+      total -= total * discount
+      return total
+    end
+  end
 
   def invoice_total
     total = 0

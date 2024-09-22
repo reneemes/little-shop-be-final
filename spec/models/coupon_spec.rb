@@ -9,7 +9,7 @@ RSpec.describe Coupon do
     @op_coupon3 = Coupon.create!(name: "Zoro's Slashed Savings", merchant_id: @merchant2.id, code: "NAPTIME", discount: 25.00)
     @op_coupon4 = Coupon.create!(name: "Franky's Auto Repairs", merchant_id: @merchant2.id, code: "SUUUPER", discount: 100.00)
     @op_coupon5 = Coupon.create!(name: "Robin's Book Deals", merchant_id: @merchant2.id, code: "BLOOMBLOOM", discount: 75.00)
-    @invoice = Invoice.create!(merchant_id: @merchant2.id, customer_id: @customer.id, coupon_id: @op_coupon1.id, status: "packaged")
+    # @invoice = Invoice.create!(merchant_id: @merchant2.id, customer_id: @customer.id, coupon_id: @op_coupon1.id, status: "packaged")
   end
 
   describe 'validations' do
@@ -38,12 +38,20 @@ RSpec.describe Coupon do
     end
   end
 
-  describe 'Deactivation Valid?' do
-    xit 'checks if the coupon is on an invoice before deactivation' do
+  describe 'toggle_status' do
+    it 'can change active status true/false' do
+      expect(@op_coupon2.active).to eq(true)
+      @op_coupon2.toggle_status
+      expect(@op_coupon2.active).to eq(false)
+    end
+  end
+
+  describe 'deactivation_valid?' do
+    it 'checks if the coupon is on an invoice before deactivation' do
       expect(@op_coupon1.active).to eq(true)
-      
+      invoice = Invoice.create!(merchant_id: @merchant2.id, customer_id: @customer.id, coupon_id: @op_coupon1.id, status: "packaged")
       @op_coupon1.toggle_status
-      expect(@op_coupon1.active).to eq(true)
+      expect(@op_coupon1.reload.active).to eq(true)
     end
   end
 end

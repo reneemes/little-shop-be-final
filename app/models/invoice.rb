@@ -11,7 +11,6 @@ class Invoice < ApplicationRecord
     if !coupon.present?
       return invoice_total
     elsif coupon.present?
-      # Calculate percentage off here
       total = invoice_total
       discount = coupon.discount / 100.00
       total -= total * discount

@@ -8,7 +8,6 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
   def show
     coupon = Coupon.find(params[:id])
-    # coupon = merchant.coupons.find(params[:id]) #Ensures the coupon belongs to the merchant
     render json: CouponSerializer.new(coupon, { params: { include_usage: true } })
   end
 
@@ -31,8 +30,6 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     else
       render json: ErrorSerializer.active_atatus_error, status: :method_not_allowed
     end
-    # coupon.toggle_status#(coupon)
-    # render json: CouponSerializer.new(coupon), status: :ok
   end
 
   private
@@ -40,8 +37,4 @@ class Api::V1::Merchants::CouponsController < ApplicationController
   def coupon_params
     params.require(:coupon).permit(:name, :discount, :code)
   end
-
-  # def toggle_status(coupon)
-  #   coupon.update(active: !coupon.active)
-  # end
 end

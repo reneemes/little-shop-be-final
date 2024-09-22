@@ -8,7 +8,6 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
   def show
     coupon = Coupon.find(params[:id])
-    # coupon = merchant.coupons.find(params[:id]) #Ensures the coupon belongs to the merchant
     render json: CouponSerializer.new(coupon, { params: { include_usage: true } })
   end
 
@@ -22,6 +21,15 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     end
   rescue ActionController::ParameterMissing => error
     render json: { message: "Missing parameters", errors: [error.message] }, status: :unprocessable_entity
+  end
+
+  def update
+    coupon = Coupon.find(params[:id])
+    if coupon.toggle_status
+      render json: CouponSerializer.new(coupon), status: :ok
+    else
+      render json: ErrorSerializer.active_atatus_error, status: :method_not_allowed
+    end
   end
 
   private

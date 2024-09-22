@@ -19,4 +19,11 @@ class ErrorSerializer
       errors: ["param is missing or the value is empty: coupon"]
     }
   end
+
+  def self.active_atatus_error
+    { 
+      message: "Cannot deactivate coupon while applied to an invoice", 
+      errors: ["cannot process request"] 
+    }
+  end
 end

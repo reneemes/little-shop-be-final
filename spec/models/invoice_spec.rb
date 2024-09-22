@@ -30,13 +30,9 @@ RSpec.describe Invoice do
     end
 
     it 'can return the total without a coupon' do
-    merchant = Merchant.create!(name: "Tom Nook")
-    customer = Customer.create!(first_name: "Island", last_name: "Rep")
-    item1 = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: merchant.id)
-    item2 = Item.create!(name: "Shovel", description: "Great for finding buried treasure!", unit_price: 500.00, merchant_id: merchant.id)
-    invoice = Invoice.create!(merchant_id: merchant.id, customer_id: customer.id, status: "packaged")
-    invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item1.id, quantity: 1, unit_price: 500.00)
-    invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item2.id, quantity: 1, unit_price: 500.00)
+    invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, status: "packaged")
+    invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+    invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
 
     total_without_coupon = invoice.handle_percentage_or_dollar_off
     expect(total_without_coupon).to eq(1000.00)
@@ -45,28 +41,20 @@ RSpec.describe Invoice do
 
   describe 'handle_percentage_or_dollar_off' do
     it 'can determine if a coupon is a percentage of dollar discount' do
-      merchant = Merchant.create!(name: "Tom Nook")
-      customer = Customer.create!(first_name: "Island", last_name: "Rep")
-      item1 = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: merchant.id)
-      item2 = Item.create!(name: "Shovel", description: "Great for finding buried treasure!", unit_price: 500.00, merchant_id: merchant.id)
-      coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: merchant.id, code: "SAVE100", discount: -100.00)
-      invoice = Invoice.create!(merchant_id: merchant.id, customer_id: customer.id, coupon_id: coupon.id, status: "packaged")
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item1.id, quantity: 1, unit_price: 500.00)
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item2.id, quantity: 1, unit_price: 500.00)
+      coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "SAVE100", discount: -100.00)
+      invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: coupon.id, status: "packaged")
+      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
 
       total_with_coupon = invoice.handle_percentage_or_dollar_off
       expect(total_with_coupon).to eq(900.00)
     end
 
     it 'handles negative values with the discount applied' do
-      merchant = Merchant.create!(name: "Tom Nook")
-      customer = Customer.create!(first_name: "Island", last_name: "Rep")
-      item1 = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: merchant.id)
-      item2 = Item.create!(name: "Shovel", description: "Great for finding buried treasure!", unit_price: 500.00, merchant_id: merchant.id)
-      coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: merchant.id, code: "SAVE100", discount: -1500.00)
-      invoice = Invoice.create!(merchant_id: merchant.id, customer_id: customer.id, coupon_id: coupon.id, status: "packaged")
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item1.id, quantity: 1, unit_price: 500.00)
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item2.id, quantity: 1, unit_price: 500.00)
+      coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "SAVE100", discount: -1500.00)
+      invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: coupon.id, status: "packaged")
+      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
 
       total_with_coupon = invoice.handle_percentage_or_dollar_off
       expect(total_with_coupon).to eq(0.00)

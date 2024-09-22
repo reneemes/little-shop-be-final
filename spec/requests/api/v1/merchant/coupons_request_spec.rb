@@ -30,6 +30,18 @@ RSpec.describe "Coupons Controller" do
         expect(data[:id]).to eq(@merchant1.id)
       end
     end
+
+    it 'can sort coupons by active or inactive' do
+      get "/api/v1/merchants/#{@merchant1.id}/coupons?status=active"
+      expect(response).to be_successful
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(data.first[:attributes][:active]).to eq(true)
+
+      get "/api/v1/merchants/#{@merchant1.id}/coupons?status=inactive"
+      expect(response).to be_successful
+      data = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(data.first[:attributes][:active]).to eq(false)
+    end
   end
 
   describe 'Show Action' do

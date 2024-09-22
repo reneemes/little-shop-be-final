@@ -9,7 +9,6 @@ RSpec.describe Coupon do
     @op_coupon3 = Coupon.create!(name: "Zoro's Slashed Savings", merchant_id: @merchant2.id, code: "NAPTIME", discount: 25.00)
     @op_coupon4 = Coupon.create!(name: "Franky's Auto Repairs", merchant_id: @merchant2.id, code: "SUUUPER", discount: 100.00)
     @op_coupon5 = Coupon.create!(name: "Robin's Book Deals", merchant_id: @merchant2.id, code: "BLOOMBLOOM", discount: 75.00)
-    # @invoice = Invoice.create!(merchant_id: @merchant2.id, customer_id: @customer.id, coupon_id: @op_coupon1.id, status: "packaged")
   end
 
   describe 'validations' do

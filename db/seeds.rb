@@ -18,8 +18,8 @@ Coupon.create!(name: "Five Percentage Off", merchant_id: 1, code: "SAVE5", disco
 Coupon.create!(name: "Twenty Percent Off", merchant_id: 1, code: "SAVE20", discount: 20.00)
 
 
-Coupon.create!(name: "Chopper's Chopped Deals", merchant_id: 2, code: "DOCTOR", discount: 50.00)
-Coupon.create!(name: "Sanji's Savings", merchant_id: 2, code: "COOK", discount: 10.00)
+Coupon.create!(name: "Chopper's Chopped Deals", merchant_id: 2, code: "DOCTOR", discount: -50.00)
+Coupon.create!(name: "Sanji's Savings", merchant_id: 2, code: "COOK", discount: -10.00)
 Coupon.create!(name: "Zoro's Slashed Savings", merchant_id: 2, code: "NAPTIME", discount: 25.00)
 Coupon.create!(name: "Franky's Auto Repairs", merchant_id: 2, code: "SUUUPER", discount: 70.00)
 Coupon.create!(name: "Robin's Book Deals", merchant_id: 2, code: "BLOOMBLOOM", discount: 75.00)

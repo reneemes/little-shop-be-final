@@ -7,15 +7,36 @@ class Invoice < ApplicationRecord
 
   validates :status, inclusion: { in: ["shipped", "packaged", "returned"] }
 
-  def calculate_percentage_off
+  def handle_percentage_or_dollar_off
     if !coupon.present?
-      return invoice_total
-    elsif coupon.present?
+      invoice_total
+    elsif coupon.present? && coupon.discount >= 0.00
+      calculate_percentage_off
+    elsif coupon.present? && coupon.discount <= 0.00
+      calculate_dollar_off
+    end
+  end
+
+  def calculate_dollar_off
+    total = invoice_total
+    # require 'pry'; binding.pry
+    total_with_discount = total + coupon.discount
+    if total_with_discount > 0.00
+      return total_with_discount
+    elsif total_with_discount < 0.00
+      return 0.00
+    end
+  end
+
+  def calculate_percentage_off
+    # if !coupon.present?
+    #   return invoice_total
+    # elsif coupon.present?
       total = invoice_total
       discount = coupon.discount / 100.00
       total -= total * discount
-      return total
-    end
+      total
+    # end
   end
 
   def invoice_total

@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   post '/api/v1/merchants/:merchant_id/coupons', to: 'api/v1/merchants/coupons#create'
   patch '/api/v1/merchants/:merchant_id/coupons/:id', to: 'api/v1/merchants/coupons#update'
 
+  get '/api/v1/merchants/:merchant_id/invoices/:id', to: 'api/v1/merchants/invoices#show'
+
   # namespace :api do
   #   namespace :v1 do
   #     namespace :merchants do

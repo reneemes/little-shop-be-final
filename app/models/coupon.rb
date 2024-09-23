@@ -12,6 +12,11 @@ class Coupon < ApplicationRecord
     update(active: !active)
   end
 
+  def self.sort_by_status(status)
+    coupons = all
+    coupons = sorted_coupons(coupons, status)
+  end
+
   private
 
   def check_count
@@ -24,5 +29,14 @@ class Coupon < ApplicationRecord
     if !active && invoices.present?
       errors.add :base, message: "Cannot deactivate coupon while applied to an invoice"
     end
+  end
+
+  def self.sorted_coupons(coupons, status)
+    if status == "active"
+      coupons = coupons.where(active: true)
+    elsif status == "inactive"
+      coupons = coupons.where(active: false)
+    end
+    coupons
   end
 end

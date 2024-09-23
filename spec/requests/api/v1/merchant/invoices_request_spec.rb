@@ -8,9 +8,15 @@ RSpec.describe "Merchant invoices endpoints" do
     @customer1 = create(:customer)
     @customer2 = create(:customer)
 
+    @item1 = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: @merchant1.id)
+    @item2 = Item.create!(name: "Shovel", description: "Great for finding buried treasure!", unit_price: 500.00, merchant_id: @merchant1.id)
+
     @invoice1 = Invoice.create!(customer: @customer1, merchant: @merchant1, status: "packaged")
     create_list(:invoice, 3, merchant_id: @merchant1.id, customer_id: @customer1.id) # shipped by default
     @invoice2 = Invoice.create!(customer: @customer1, merchant: @merchant2, status: "shipped")
+
+    @invoice_item = InvoiceItem.create!(invoice_id: @invoice2.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+    @invoice_item = InvoiceItem.create!(invoice_id: @invoice2.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
   end
 
   it "should return all invoices for a given merchant based on status param" do
@@ -64,5 +70,16 @@ RSpec.describe "Merchant invoices endpoints" do
 
     expect(response).to have_http_status(:success)
     expect(json.count).to eq(1)
+  end
+
+  describe 'Show Action' do
+    it 'can return on invoice by ID number' do
+      get "/api/v1/merchants/#{@merchant2.id}/invoices/#{@invoice2.id}"
+      
+      json = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(json[:id]).to eq(@invoice2.id.to_s)
+    end
   end
 end

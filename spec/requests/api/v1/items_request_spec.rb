@@ -140,6 +140,23 @@ describe "Item endpoints", :type => :request do
       expect(response).to have_http_status(:not_found)
       expect(json[:errors].first).to eq("Couldn't find Item with 'id'=235")
     end
+
+    it 'should return 404 if merchant_id is invalid' do
+      item = create(:item)
+      body = {
+        name: "new name",
+        merchant_id: 1234567890
+      }
+
+      patch "/api/v1/items/#{item.id}", params: body, as: :json
+      json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to_not be_successful
+      expect(response).to have_http_status(:not_found)
+      expect(json[:message]).to eq("Your query could not be completed")
+      expect(json[:errors]).to eq(["Couldn't find Merchant with 'id'=1234567890"])
+      # expect(json[:errors]).to eq(["Invalid merchant"])
+    end
   end
 
   describe "Delete Item" do

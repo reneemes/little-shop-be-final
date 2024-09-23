@@ -5,7 +5,7 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
   # has_many :invoice_items, through: :invoices
   # has_many :transactions, through: :invoices
-  has_many :coupons
+  has_many :coupons, dependent: :destroy
 
   def self.sorted_by_creation
     Merchant.order("created_at DESC")

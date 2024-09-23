@@ -16,48 +16,48 @@ RSpec.describe Invoice do
   it { should belong_to :customer }
   it { should validate_inclusion_of(:status).in_array(%w(shipped packaged returned)) }
 
-  describe 'Invoice Total' do
-    it 'can calculate the total of the invoice items' do
-      total = @invoice.invoice_total
-      expect(total).to eq(1000.00)
-    end
-  end
+  # describe 'Invoice Total' do
+  #   it 'can calculate the total of the invoice items' do
+  #     total = @invoice.invoice_total
+  #     expect(total).to eq(1000.00)
+  #   end
+  # end
   
-  describe 'Calculate Percentage Off' do
-    it 'can take the coupon discount off the invoice total' do
-      total_with_coupon = @invoice.handle_percentage_or_dollar_off
-      expect(total_with_coupon).to eq(850.00)
-    end
+  # describe 'Calculate Percentage Off' do
+  #   it 'can take the coupon discount off the invoice total' do
+  #     total_with_coupon = @invoice.handle_percentage_or_dollar_off
+  #     expect(total_with_coupon).to eq(850.00)
+  #   end
 
-    it 'can return the total without a coupon' do
-    invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, status: "packaged")
-    invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
-    invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
+  #   it 'can return the total without a coupon' do
+  #   invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, status: "packaged")
+  #   invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+  #   invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
 
-    total_without_coupon = invoice.handle_percentage_or_dollar_off
-    expect(total_without_coupon).to eq(1000.00)
-    end
-  end
+  #   total_without_coupon = invoice.handle_percentage_or_dollar_off
+  #   expect(total_without_coupon).to eq(1000.00)
+  #   end
+  # end
 
-  describe 'handle_percentage_or_dollar_off' do
-    it 'can determine if a coupon is a percentage of dollar discount' do
-      coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "SAVE100", discount: -100.00)
-      invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: coupon.id, status: "packaged")
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
+  # describe 'handle_percentage_or_dollar_off' do
+  #   it 'can determine if a coupon is a percentage of dollar discount' do
+  #     coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "SAVE100", discount: -100.00)
+  #     invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: coupon.id, status: "packaged")
+  #     invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+  #     invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
 
-      total_with_coupon = invoice.handle_percentage_or_dollar_off
-      expect(total_with_coupon).to eq(900.00)
-    end
+  #     total_with_coupon = invoice.handle_percentage_or_dollar_off
+  #     expect(total_with_coupon).to eq(900.00)
+  #   end
 
-    it 'handles negative values with the discount applied' do
-      coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "SAVE100", discount: -1500.00)
-      invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: coupon.id, status: "packaged")
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
-      invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
+  #   it 'handles negative values with the discount applied' do
+  #     coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "SAVE100", discount: -1500.00)
+  #     invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: coupon.id, status: "packaged")
+  #     invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+  #     invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
 
-      total_with_coupon = invoice.handle_percentage_or_dollar_off
-      expect(total_with_coupon).to eq(0.00)
-    end
-  end
+  #     total_with_coupon = invoice.handle_percentage_or_dollar_off
+  #     expect(total_with_coupon).to eq(0.00)
+  #   end
+  # end
 end

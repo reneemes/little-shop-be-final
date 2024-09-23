@@ -23,3 +23,11 @@ Coupon.create!(name: "Sanji's Savings", merchant_id: 2, code: "COOK", discount: 
 Coupon.create!(name: "Zoro's Slashed Savings", merchant_id: 2, code: "NAPTIME", discount: 25.00)
 Coupon.create!(name: "Franky's Auto Repairs", merchant_id: 2, code: "SUUUPER", discount: 70.00)
 Coupon.create!(name: "Robin's Book Deals", merchant_id: 2, code: "BLOOMBLOOM", discount: 75.00)
+
+coupon = Coupon.create!(name: "Luffy's Discount", merchant_id: 3, code: "GUMGUM", discount: 75.00)
+customer = Customer.create!(first_name: "Boa", last_name: "Hancock")
+invoice = Invoice.create!(merchant_id: 3, customer_id: customer.id, status: "shipped", coupon: coupon)
+item = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: 3)
+
+InvoiceItem.create!(invoice_id: invoice.id, item_id: item.id, quantity: 1, unit_price: 500.00)
+puts "Seed data created successfully."

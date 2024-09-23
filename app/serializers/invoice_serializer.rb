@@ -1,8 +1,5 @@
 class InvoiceSerializer
   include JSONAPI::Serializer
-  attributes :merchant_id, :customer_id, :status
+  attributes :merchant_id, :customer_id, :coupon_id, :statuspon_id
    
-  attributes :coupon_id, if: Proc.new { |coupon, params| params[:include_coupon_id] } do |coupon|
-    coupon.id
-  end
 end

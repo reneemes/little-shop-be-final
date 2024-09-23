@@ -19,7 +19,6 @@ class Invoice < ApplicationRecord
 
   def calculate_dollar_off
     total = invoice_total
-    # require 'pry'; binding.pry
     total_with_discount = total + coupon.discount
     if total_with_discount > 0.00
       return total_with_discount
@@ -29,14 +28,10 @@ class Invoice < ApplicationRecord
   end
 
   def calculate_percentage_off
-    # if !coupon.present?
-    #   return invoice_total
-    # elsif coupon.present?
       total = invoice_total
       discount = coupon.discount / 100.00
       total -= total * discount
       total
-    # end
   end
 
   def invoice_total

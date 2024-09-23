@@ -1,5 +1,5 @@
 class Coupon < ApplicationRecord
-  belongs_to :merchant
+  belongs_to :merchant, counter_cache: :coupons_count
   has_many :invoices
 
   validates :name, :discount, :code, presence: true

@@ -30,4 +30,10 @@ invoice = Invoice.create!(merchant_id: 3, customer_id: customer.id, status: "shi
 item = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: 3)
 
 InvoiceItem.create!(invoice_id: invoice.id, item_id: item.id, quantity: 1, unit_price: 500.00)
+
+# Reset the counter cache for all merchants
+# Merchant.find_each do |merchant|
+#   Merchant.reset_counters(merchant.id, :coupons)
+# end
+
 puts "Seed data created successfully."

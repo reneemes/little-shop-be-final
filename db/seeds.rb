@@ -26,9 +26,8 @@ Coupon.create!(name: "Robin's Book Deals", merchant_id: 2, code: "BLOOMBLOOM", d
 
 coupon = Coupon.create!(name: "Luffy's Discount", merchant_id: 3, code: "GUMGUM", discount: 75.00)
 customer = Customer.create!(first_name: "Boa", last_name: "Hancock")
-invoice = Invoice.create!(merchant_id: 3, customer_id: customer.id, status: "shipped", coupon: coupon)
 item = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: 3)
-
+invoice = Invoice.create!(merchant_id: 3, customer_id: customer.id, status: "shipped", coupon: coupon.id)
 InvoiceItem.create!(invoice_id: invoice.id, item_id: item.id, quantity: 1, unit_price: 500.00)
 
 # Reset the counter cache for all merchants

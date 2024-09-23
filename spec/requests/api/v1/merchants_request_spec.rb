@@ -215,4 +215,25 @@ describe "Merchant endpoints", :type => :request do
       expect(response).to have_http_status(:no_content)
     end
   end
+
+  describe 'Invoice Coupon Count' do
+    it 'can calculate the total amount of invoices with coupons applied to them' do
+      @merchant = Merchant.create!(name: "Tom Nook")
+      @customer = Customer.create!(first_name: "Island", last_name: "Rep")
+      @item1 = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: @merchant.id)
+      @item2 = Item.create!(name: "Shovel", description: "Great for finding buried treasure!", unit_price: 500.00, merchant_id: @merchant.id)
+      @coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "YESYES", discount: 15.00)
+      @invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: @coupon.id, status: "packaged")
+      @invoice_item = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+      @invoice_item = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
+
+      @merchant.reload
+
+      get "/api/v1/merchants"
+      json = JSON.parse(response.body, symbolize_names: true)[:data][0][:attributes]
+
+      expect(response).to be_successful
+      expect(json[:invoice_coupon_count]).to eq(1)
+    end
+  end
 end

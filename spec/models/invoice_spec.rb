@@ -16,6 +16,18 @@ RSpec.describe Invoice do
   it { should belong_to :customer }
   it { should validate_inclusion_of(:status).in_array(%w(shipped packaged returned)) }
 
+  # describe 'calculate_invoice_coupon_count' do
+  #   it 'can calculate the total amount of invoices with coupons applied to them' do
+  #     coupon = Coupon.create!(name: "Redd's Questionable Discounts", merchant_id: @merchant.id, code: "SAVE100", discount: -1500.00)
+  #     invoice = Invoice.create!(merchant_id: @merchant.id, customer_id: @customer.id, coupon_id: coupon.id, status: "packaged")
+  #     invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item1.id, quantity: 1, unit_price: 500.00)
+  #     invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: @item2.id, quantity: 1, unit_price: 500.00)
+
+  #     count = invoice.calculate_invoice_coupon_count
+  #     expect(count).to eq(1)
+  #   end
+  # end
+
   # describe 'Invoice Total' do
   #   it 'can calculate the total of the invoice items' do
   #     total = @invoice.invoice_total

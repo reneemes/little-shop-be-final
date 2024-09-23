@@ -1,11 +1,13 @@
 class Invoice < ApplicationRecord
   belongs_to :customer
-  belongs_to :merchant
+  belongs_to :merchant#, required: true
   belongs_to :coupon, optional: true
   has_many :invoice_items, dependent: :destroy
   has_many :transactions, dependent: :destroy
 
   validates :status, inclusion: { in: ["shipped", "packaged", "returned"] }
+
+  after_save :calculate_invoice_coupon_count
 
   # def handle_percentage_or_dollar_off
   #   if !coupon.present?
@@ -41,4 +43,11 @@ class Invoice < ApplicationRecord
   #   end
   #   return total
   # end
+
+  private
+
+  def calculate_invoice_coupon_count
+    count = merchant.invoices.where.not(coupon_id: nil).count
+    merchant.update(invoice_coupon_count: count)
+  end
 end

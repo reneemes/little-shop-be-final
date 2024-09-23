@@ -72,13 +72,14 @@ RSpec.describe "Merchant invoices endpoints" do
     expect(json.count).to eq(1)
   end
 
-  # describe 'Invoice Total' do
-  #   it 'calculates total without a coupon' do
-  #     get "/api/v1/merchants/#{@merchant2.id}/invoices"
-  #     json = JSON.parse(response.body, symbolize_names: true)
-  #     # require 'pry'; binding.pry
-  #     expect(response).to be_successful
-  #     expect(@invoice2.handle_percentage_or_dollar_off).to eq(0)
-  #   end
-  # end
+  describe 'Show Action' do
+    it 'can return on invoice by ID number' do
+      get "/api/v1/merchants/#{@merchant2.id}/invoices/#{@invoice2.id}"
+      
+      json = JSON.parse(response.body, symbolize_names: true)[:data]
+      
+      expect(response).to be_successful
+      expect(json[:id]).to eq(@invoice2.id.to_s)
+    end
+  end
 end

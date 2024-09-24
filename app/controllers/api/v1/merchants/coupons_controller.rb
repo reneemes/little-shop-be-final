@@ -17,7 +17,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     if new_coupon.save
       render json: CouponSerializer.new(new_coupon), status: :created
     else
-      render json: ErrorSerializer.creation_error("Creation failed"), status: :unprocessable_entity
+      render json: ErrorSerializer.creation_error, status: :unprocessable_entity
     end
   rescue ActionController::ParameterMissing => error
     render json: { message: "Missing parameters", errors: [error.message] }, status: :unprocessable_entity
@@ -28,7 +28,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     if coupon.toggle_status
       render json: CouponSerializer.new(coupon), status: :ok
     else
-      render json: ErrorSerializer.active_atatus_error, status: :method_not_allowed
+      render json: ErrorSerializer.active_status_error, status: :method_not_allowed
     end
   end
 

@@ -102,7 +102,7 @@ RSpec.describe "Coupons Controller" do
       
       expect(response).to_not be_successful
       expect(data[:message]).to eq("Creation failed")
-      expect(data[:errors]).to eq(["param is missing or the value is empty: coupon"])
+      expect(data[:errors]).to eq(["coupon code already exists in the database"])
     end
 
     it 'handles no parameters' do

@@ -20,7 +20,7 @@ class ErrorSerializer
     }
   end
 
-  def self.active_atatus_error
+  def self.active_status_error
     { 
       message: "Cannot deactivate coupon while applied to an invoice", 
       errors: ["cannot process request"] 

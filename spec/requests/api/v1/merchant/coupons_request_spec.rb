@@ -85,9 +85,10 @@ RSpec.describe "Coupons Controller" do
       }
       post "/api/v1/merchants/#{@merchant2.id}/coupons", params: sixth_coupon, as: :json
       data = JSON.parse(response.body, symbolize_names: true)
+
       expect(response).to_not be_successful
       expect(data[:message]).to eq("Creation failed")
-      expect(data[:errors]).to eq(["value is missing or the code already exists in the database"])
+      expect(data[:errors]).to eq(["Merchant already has 5 coupons"])
     end
 
     it 'handles coupon codes that are not unique' do
@@ -102,7 +103,7 @@ RSpec.describe "Coupons Controller" do
       
       expect(response).to_not be_successful
       expect(data[:message]).to eq("Creation failed")
-      expect(data[:errors]).to eq(["value is missing or the code already exists in the database"])
+      expect(data[:errors]).to eq(["Code has already been taken"])
     end
 
     it 'handles no parameters' do
@@ -111,10 +112,10 @@ RSpec.describe "Coupons Controller" do
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(response).to_not be_successful
-      expect(response.status).to eq(422)
+      expect(response.status).to eq(400)
 
-      expect(data[:message]).to eq("Missing parameters")
-      expect(data[:errors]).to eq(["param is missing or the value is empty: coupon"])
+      expect(data[:message]).to eq("Creation failed")
+      expect(data[:errors]).to eq(["Missing parameters"])
     end
 
     it 'handles missing parameters' do
@@ -129,7 +130,7 @@ RSpec.describe "Coupons Controller" do
       expect(response.status).to eq(422)
 
       expect(data[:message]).to eq("Creation failed")
-      expect(data[:errors]).to eq(["value is missing or the code already exists in the database"])
+      expect(data[:errors]).to eq(["Code can't be blank"])
     end
   end
 

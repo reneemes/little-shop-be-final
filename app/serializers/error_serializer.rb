@@ -15,8 +15,8 @@ class ErrorSerializer
 
   def self.creation_error(messages)
     {
-      message: messages,
-      errors: ["value is missing or the code already exists in the database"]
+      message: "Creation failed",
+      errors: messages
     }
   end
 

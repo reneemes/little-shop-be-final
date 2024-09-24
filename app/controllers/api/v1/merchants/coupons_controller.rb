@@ -13,7 +13,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
   def create
     if missing_params?
-      render json: ErrorSerializer.creation_error(["Missing parameters"]), status: :bad_request
+      missing_params_response
       return
     end
 
@@ -44,5 +44,9 @@ class Api::V1::Merchants::CouponsController < ApplicationController
 
   def missing_params?
     !params[:coupon].has_key?(:name) && !params[:coupon].has_key?(:discount) && !params[:coupon].has_key?(:code)
+  end
+
+  def missing_params_response
+    render json: ErrorSerializer.creation_error(["Missing parameters"]), status: :bad_request
   end
 end

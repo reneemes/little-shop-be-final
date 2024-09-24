@@ -13,26 +13,38 @@ puts cmd
 system(cmd)
 
 system("rails db:migrate")
+# Merchants
+merchant1 = Merchant.create!(name: "Going Merry")
+merchant2 = Merchant.create!(name: "The Thousand Sunny")
+merchant3 = Merchant.create!(name: "Polar Tang")
+merchant4 = Merchant.create!(name: "The Oro Jackson")
 
-Coupon.create!(name: "Five Percentage Off", merchant_id: 1, code: "SAVE5", discount: 5.00, active: false)
-Coupon.create!(name: "Twenty Percent Off", merchant_id: 1, code: "SAVE20", discount: 20.00)
+# Merchant 1 Coupons
+coupon1 = Coupon.create!(name: "Chopper's Chopped Deals", merchant_id: merchant1.id, code: "DOCTOR", discount: -50.00)
+coupon2 = Coupon.create!(name: "Sanji's Savings", merchant_id: merchant1.id, code: "COOK", discount: -10.00)
+coupon3 = Coupon.create!(name: "Zoro's Slashed Savings", merchant_id: merchant1.id, code: "NAPTIME", discount: 25.00)
+coupon3 = Coupon.create!(name: "Franky's Auto Repairs", merchant_id: merchant1.id, code: "SUUUPER", discount: 70.00)
+coupon5 = Coupon.create!(name: "Robin's Book Deals", merchant_id: merchant1.id, code: "BLOOM", discount: 75.00)
 
+# Merchant 2 Coupons
+coupon6 = Coupon.create!(name: "Five Percentage Off", merchant_id: merchant2.id, code: "SAVE5", discount: 5.00, active: false)
+coupon7 = Coupon.create!(name: "Twenty Percent Off", merchant_id: merchant2.id, code: "SAVE20", discount: 20.00)
 
-Coupon.create!(name: "Chopper's Chopped Deals", merchant_id: 2, code: "DOCTOR", discount: -50.00)
-Coupon.create!(name: "Sanji's Savings", merchant_id: 2, code: "COOK", discount: -10.00)
-Coupon.create!(name: "Zoro's Slashed Savings", merchant_id: 2, code: "NAPTIME", discount: 25.00)
-Coupon.create!(name: "Franky's Auto Repairs", merchant_id: 2, code: "SUUUPER", discount: 70.00)
-Coupon.create!(name: "Robin's Book Deals", merchant_id: 2, code: "BLOOMBLOOM", discount: 75.00)
+# Merchant 3 Coupons
+coupon8 = Coupon.create!(name: "Luffy's Discount", merchant_id: merchant3.id, code: "GUMGUM", discount: 75.00)
 
-coupon = Coupon.create!(name: "Luffy's Discount", merchant_id: 3, code: "GUMGUM", discount: 75.00)
+# Merchant 4 Coupons
+coupon9 = Coupon.create!(name: "Twenty Percent Off", merchant_id: merchant4.id, code: "SAVE20%", discount: 20.00)
+coupon10 = Coupon.create!(name: "Twenty Dollars Off", merchant_id: merchant4.id, code: "SAVE$20", discount: -20.00)
+
+# Customer
 customer = Customer.create!(first_name: "Boa", last_name: "Hancock")
-item = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: 3)
-invoice = Invoice.create!(merchant_id: 3, customer_id: customer.id, status: "shipped", coupon: coupon.id)
-InvoiceItem.create!(invoice_id: invoice.id, item_id: item.id, quantity: 1, unit_price: 500.00)
 
-# Reset the counter cache for all merchants
-# Merchant.find_each do |merchant|
-#   Merchant.reset_counters(merchant.id, :coupons)
-# end
+# Item
+item = Item.create!(name: "Fishing Rod", description: "Great for catching fish!", unit_price: 500.00, merchant_id: merchant3.id)
+
+# Invoice
+invoice = Invoice.create!(merchant_id: merchant3.id, customer_id: customer.id, status: "shipped", coupon_id: coupon8.id)
+invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item.id, quantity: 1, unit_price: 500.00)
 
 puts "Seed data created successfully."

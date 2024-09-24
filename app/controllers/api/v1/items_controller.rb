@@ -22,8 +22,8 @@ class Api::V1::ItemsController < ApplicationController
   def update
     item = Item.find(params[:id])
     if !item_params[:merchant_id].nil?
-      merchant = Merchant.find(item_params[:merchant_id])
-      render json: ErrorSerializer.format_errors(["Invalid merchant"]), status: :not_found if merchant.nil?
+      merchant = Merchant.find_by(id: item_params[:merchant_id])
+      return render json: ErrorSerializer.format_errors(["Invalid merchant"]), status: :not_found if merchant.nil?
     end
     item.update(item_params)
     item.save

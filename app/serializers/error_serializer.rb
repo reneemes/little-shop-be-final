@@ -15,12 +15,12 @@ class ErrorSerializer
 
   def self.creation_error(messages)
     {
-      message: messages,
-      errors: ["param is missing or the value is empty: coupon"]
+      message: "Creation failed",
+      errors: messages
     }
   end
 
-  def self.active_atatus_error
+  def self.active_status_error
     { 
       message: "Cannot deactivate coupon while applied to an invoice", 
       errors: ["cannot process request"] 

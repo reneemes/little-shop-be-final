@@ -13,7 +13,7 @@ puts cmd
 system(cmd)
 
 system("rails db:migrate")
-
+# Merchants
 merchant1 = Merchant.create!(name: "Going Merry")
 merchant2 = Merchant.create!(name: "The Thousand Sunny")
 merchant3 = Merchant.create!(name: "Polar Tang")
@@ -46,10 +46,5 @@ item = Item.create!(name: "Fishing Rod", description: "Great for catching fish!"
 # Invoice
 invoice = Invoice.create!(merchant_id: merchant3.id, customer_id: customer.id, status: "shipped", coupon_id: coupon8.id)
 invoice_item = InvoiceItem.create!(invoice_id: invoice.id, item_id: item.id, quantity: 1, unit_price: 500.00)
-
-# Reset the counter cache for all merchants
-Merchant.find_each do |merchant|
-  Merchant.reset_counters(merchant.id, :coupons)
-end
 
 puts "Seed data created successfully."

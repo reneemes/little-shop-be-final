@@ -14,7 +14,10 @@ RSpec.describe Invoice do
 
   it { should belong_to :merchant }
   it { should belong_to :customer }
+  it { should belong_to(:coupon).optional }
   it { should validate_inclusion_of(:status).in_array(%w(shipped packaged returned)) }
+  it { should have_many :invoice_items }
+  it { should have_many :transactions }
 
   # describe 'calculate_invoice_coupon_count' do
   #   it 'can calculate the total amount of invoices with coupons applied to them' do

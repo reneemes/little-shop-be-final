@@ -16,7 +16,6 @@ RSpec.describe Coupon do
     it { should validate_presence_of :discount }
     it { should validate_presence_of :code }
     it { should validate_uniqueness_of :code }
-    it { should validate_uniqueness_of :code }
   end
 
   describe 'relationships' do

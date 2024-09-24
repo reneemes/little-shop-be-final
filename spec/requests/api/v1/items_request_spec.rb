@@ -153,9 +153,9 @@ describe "Item endpoints", :type => :request do
 
       expect(response).to_not be_successful
       expect(response).to have_http_status(:not_found)
+      expect(response.status).to eq(404)
       expect(json[:message]).to eq("Your query could not be completed")
-      expect(json[:errors]).to eq(["Couldn't find Merchant with 'id'=1234567890"])
-      # expect(json[:errors]).to eq(["Invalid merchant"])
+      expect(json[:errors]).to eq(["Invalid merchant"])
     end
   end
 

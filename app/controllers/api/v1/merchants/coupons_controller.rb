@@ -43,7 +43,7 @@ class Api::V1::Merchants::CouponsController < ApplicationController
   end
 
   def missing_params?
-    !params[:coupon].has_key?(:name) && !params[:coupon].has_key?(:discount) && !params[:coupon].has_key?(:code)
+    params[:coupon].blank?
   end
 
   def missing_params_response

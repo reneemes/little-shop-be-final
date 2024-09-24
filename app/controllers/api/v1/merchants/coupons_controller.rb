@@ -16,8 +16,10 @@ class Api::V1::Merchants::CouponsController < ApplicationController
     new_coupon = merchant.coupons.new(coupon_params)
     if new_coupon.save
       render json: CouponSerializer.new(new_coupon), status: :created
+    # elsif !new_coupon.save && #coupon code is not uniq
+      # Code not uniq error message
     else
-      render json: ErrorSerializer.creation_error, status: :unprocessable_entity
+      render json: ErrorSerializer.creation_error("Creation failed"), status: :unprocessable_entity
     end
   rescue ActionController::ParameterMissing => error
     render json: { message: "Missing parameters", errors: [error.message] }, status: :unprocessable_entity

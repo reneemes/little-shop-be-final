@@ -16,7 +16,7 @@ class ErrorSerializer
   def self.creation_error(messages)
     {
       message: messages,
-      errors: ["param is missing or the value is empty: coupon"]
+      errors: ["value is missing or the code already exists in the database"]
     }
   end
 
